@@ -8,8 +8,7 @@ import org.springframework.core.env.Environment;
 import com.perisatto.fiapprj.file_processor.application.interfaces.FileRepositoryManagement;
 import com.perisatto.fiapprj.file_processor.application.interfaces.RequestRepository;
 import com.perisatto.fiapprj.file_processor.application.usecases.CreateRequestUseCase;
-import com.perisatto.fiapprj.file_processor.application.usecases.GetRequestUseCase;
-import com.perisatto.fiapprj.file_processor.application.usecases.UpdateRequestUseCase;
+import com.perisatto.fiapprj.file_processor.application.usecases.FileProcessUseCase;
 import com.perisatto.fiapprj.file_processor.infra.gateways.FileProcessorQueueManagement;
 import com.perisatto.fiapprj.file_processor.infra.gateways.RequestRepositoryJpa;
 import com.perisatto.fiapprj.file_processor.infra.gateways.S3RepositoryManagement;
@@ -28,13 +27,8 @@ public class RequestConfig {
 	}
 	
 	@Bean
-	UpdateRequestUseCase updateRequestUseCase(RequestRepository requestRepository, FileProcessorQueueManagement fileProcessorQueueManagement) {
-		return new UpdateRequestUseCase(requestRepository, fileProcessorQueueManagement);
-	}
-
-	@Bean
-	GetRequestUseCase getRequestUseCase(RequestRepository requestManagement, FileRepositoryManagement fileRepositoryManagement) {
-		return new GetRequestUseCase(requestManagement, fileRepositoryManagement);
+	FileProcessUseCase fileProcessUseCase(FileRepositoryManagement fileRepositoryManagement) {
+		return new FileProcessUseCase(fileRepositoryManagement);
 	}
 	
 		

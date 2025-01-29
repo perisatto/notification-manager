@@ -1,5 +1,9 @@
 package com.perisatto.fiapprj.file_processor.infra.gateways;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Duration;
 
 import org.apache.logging.log4j.LogManager;
@@ -102,5 +106,16 @@ public class S3RepositoryManagement implements FileRepositoryManagement{
 		logger.info("HTTP method: [{}]", presignedPutObjectRequest.httpRequest().method());
 
 		return presignedPutObjectRequest.url().toExternalForm(); 
+	}
+
+	@Override
+	public InputStream getFileToProcess(String id) throws Exception {		
+		InputStream inputStream = Files.newInputStream(Paths.get("C:\\Users\\rodri\\Documents\\FIAP\\PosTech\\Hackaton\\FIAP_DOTNET_NET1_23\\FIAP_DOTNET_NET1_23\\FIAPProcessaVideo\\Marvel_DOTNET_CSHARP.mp4"));
+		return inputStream;
+	}
+	
+	@Override
+	public void writeProcessedFile(String id, File file) throws Exception {
+		
 	}
 }
