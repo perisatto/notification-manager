@@ -8,14 +8,16 @@ spring:
       fail-on-unknown-properties: true     
 server:
   servlet:
-    context-path: "/file-processor/v1"      
+    context-path: "/file-processor/v1" 
+  port: 8081
 ---
 spring:
   config:
     activate:
       on-profile:
       - docker		
-
+  request:
+    serviceUrl: ${REQUEST_SERVICE_URL}
   aws:
     accessKeyId: ${AWS_ACCESS_KEY_ID}
     secretAccessKey: ${AWS_SECRET_ACCESS_KEY}

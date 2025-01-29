@@ -9,7 +9,7 @@ public interface FileRepositoryManagement {
 	
 	String generateDownloadFileURL(String id, String videoFile);
 
-	InputStream getFileToProcess(String id) throws Exception;
+	InputStream getFileToProcess(String id, String videoFile) throws Exception;
 
-	void writeProcessedFile(String id, File zipFile) throws Exception;
+	void writeProcessedFile(String id, String videoFile, File zipFile) throws Exception;
 }
