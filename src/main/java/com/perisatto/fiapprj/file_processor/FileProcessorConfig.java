@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+import com.perisatto.fiapprj.file_processor.domain.entities.Notification;
 import com.perisatto.fiapprj.file_processor.domain.entities.Request;
 
 @Configuration
@@ -21,8 +22,8 @@ public class FileProcessorConfig {
 
 
 	@Bean
-	public Queue pendingRequests() {
-		return new Queue("pending_requests");
+	public Queue notifications() {
+		return new Queue("notifications");
 	}
 	
 	@Bean
@@ -37,6 +38,7 @@ public class FileProcessorConfig {
 	    DefaultClassMapper classMapper = new DefaultClassMapper();
 	    Map<String, Class<?>> idClassMapping = new HashMap<>();
 	    idClassMapping.put("Request", Request.class);
+	    idClassMapping.put("Notification", Notification.class);
 	    classMapper.setIdClassMapping(idClassMapping);
 	    return classMapper;
 	}	

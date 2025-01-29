@@ -6,9 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import com.perisatto.fiapprj.file_processor.application.interfaces.FileRepositoryManagement;
+import com.perisatto.fiapprj.file_processor.application.interfaces.NotificationManagement;
 import com.perisatto.fiapprj.file_processor.application.interfaces.RequestRepository;
 import com.perisatto.fiapprj.file_processor.application.usecases.FileProcessUseCase;
-import com.perisatto.fiapprj.file_processor.infra.gateways.FileProcessorQueueManagement;
+import com.perisatto.fiapprj.file_processor.infra.gateways.NotificationManagerQueueManagement;
 import com.perisatto.fiapprj.file_processor.infra.gateways.RequestRepositoryApi;
 import com.perisatto.fiapprj.file_processor.infra.gateways.S3RepositoryManagement;
 
@@ -19,8 +20,8 @@ public class FileProcessConfig {
 	private Environment env;
 	
 	@Bean
-	FileProcessUseCase fileProcessUseCase(FileRepositoryManagement fileRepositoryManagement, RequestRepository requestRepository) {
-		return new FileProcessUseCase(fileRepositoryManagement, requestRepository);
+	FileProcessUseCase fileProcessUseCase(FileRepositoryManagement fileRepositoryManagement, RequestRepository requestRepository, NotificationManagement notificationManagement) {
+		return new FileProcessUseCase(fileRepositoryManagement, requestRepository, notificationManagement);
 	}	
 		
 	@Bean
@@ -34,7 +35,7 @@ public class FileProcessConfig {
 	}
 	
 	@Bean
-	FileProcessorQueueManagement fileProcessorQueueManagement() {
-		return new FileProcessorQueueManagement();
+	NotificationManagerQueueManagement fileProcessorQueueManagement() {
+		return new NotificationManagerQueueManagement();
 	}
 }

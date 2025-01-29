@@ -15,7 +15,9 @@ import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.Java2DFrameConverter;
 
 import com.perisatto.fiapprj.file_processor.application.interfaces.FileRepositoryManagement;
+import com.perisatto.fiapprj.file_processor.application.interfaces.NotificationManagement;
 import com.perisatto.fiapprj.file_processor.application.interfaces.RequestRepository;
+import com.perisatto.fiapprj.file_processor.domain.entities.Notification;
 import com.perisatto.fiapprj.file_processor.domain.entities.Request;
 import com.perisatto.fiapprj.file_processor.domain.entities.RequestStatus;
 
@@ -25,10 +27,12 @@ public class FileProcessUseCase {
 
 	private final FileRepositoryManagement fileRepositoryManagement;
 	private final RequestRepository requestRepository;
+	private final NotificationManagement notificationManagement;
 
-	public FileProcessUseCase(FileRepositoryManagement fileRepositoryManagement, RequestRepository requestRepository) {
+	public FileProcessUseCase(FileRepositoryManagement fileRepositoryManagement, RequestRepository requestRepository, NotificationManagement notificationManagement) {
 		this.fileRepositoryManagement = fileRepositoryManagement;
 		this.requestRepository = requestRepository;
+		this.notificationManagement = notificationManagement;
 	}
 
 	public void generateImageFiles(Request request) throws Exception {
@@ -42,11 +46,8 @@ public class FileProcessUseCase {
 		try {		
 			grabber = new FFmpegFrameGrabber(fileRepositoryManagement.getFileToProcess(request.getId(), request.getVideoFileName()));
 			grabber.start();
-		} catch (Exception e) {
-			logger.error("Error getting file to process. Ending processing...");
-			request.setRemarks("Error getting file to process. Verify the file type (must be a video).");
-			request.setStatus(RequestStatus.ERROR);
-			requestRepository.updateRequest(request);
+		} catch (Exception e) {			
+			reportError(request, "Error getting file to process. Verify the file type (must be a video).");
 			return;
 		}
 
@@ -55,10 +56,7 @@ public class FileProcessUseCase {
 		Long duration = grabber.getLengthInTime();
 		
 		if(interval > duration) {
-			logger.error("Error processing video file. Ending processing...");
-			request.setRemarks("Error processing video file. Interval must be smaller than duration.");
-			request.setStatus(RequestStatus.ERROR);
-			requestRepository.updateRequest(request);
+			reportError(request, "Error processing video file. Interval must be smaller than duration.");
 			
 			grabber.stop();
 			grabber.close();
@@ -91,11 +89,8 @@ public class FileProcessUseCase {
 				converter.close();			
 			}
 		} catch (Exception e) {
-			logger.error("Error processing video file. Ending processing...");
-			request.setRemarks("Error processing video file. Unable to extract frames");
-			request.setStatus(RequestStatus.ERROR);
-			requestRepository.updateRequest(request);
-			
+			reportError(request, "Error processing video file. Unable to extract frames");
+
 			zos.close();
 			fos.close();
 			
@@ -116,11 +111,8 @@ public class FileProcessUseCase {
 		try { 
 			fileRepositoryManagement.writeProcessedFile(request.getId(), request.getVideoFileName(), zipFile);
 		} catch (Exception e) {
-			logger.error("Error publishing compressed file. Ending processing...");
-			request.setRemarks("Error publishing compressed file");
-			request.setStatus(RequestStatus.ERROR);
-			requestRepository.updateRequest(request);
-			
+			reportError(request, "Error publishing compressed file");
+
 			zipFile.delete();
 
 			grabber.stop();
@@ -139,5 +131,18 @@ public class FileProcessUseCase {
 		requestRepository.updateRequest(request);
 
 		logger.info("Request processed.");
+	}
+
+	private void reportError(Request request, String errorMessage) throws Exception {
+		logger.error("Error processing request. Ending processing...");
+		request.setRemarks(errorMessage);
+		request.setStatus(RequestStatus.ERROR);
+		requestRepository.updateRequest(request);
+		
+		Notification notification = new Notification();
+		notification.setRequestId(request.getId());
+		notification.setMessage(errorMessage);
+		
+		notificationManagement.createNotification(notification);
 	}
 }
