@@ -1,12 +1,12 @@
 spring:
   application:
-    name: request-manager
+    name: file-processor
   jackson:
     deserialization:
       fail-on-unknown-properties: true     
 server:
   servlet:
-    context-path: "/request-manager/v1"      
+    context-path: "/file-processor/v1"      
 ---    
 spring:
   config:

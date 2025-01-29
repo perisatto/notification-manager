@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.perisatto.fiapprj</groupId>
-	<artifactId>request-manager</artifactId>
+	<artifactId>file-processor</artifactId>
 	<version>1.0.0</version>
-	<name>request-manager</name>
+	<name>file-processor</name>
 	<description>Video trimmer for FIAP Tech Challenge (post graduate course test)</description>
 	<properties>
 		<java.version>22</java.version>

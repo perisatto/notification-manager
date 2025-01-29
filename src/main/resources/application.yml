@@ -1,6 +1,6 @@
 spring:
   application:
-    name: request-manager
+    name: file-processor
   profiles:
     default: docker
   jackson:
@@ -8,7 +8,7 @@ spring:
       fail-on-unknown-properties: true     
 server:
   servlet:
-    context-path: "/request-manager/v1"      
+    context-path: "/file-processor/v1"      
 ---
 spring:
   config:
@@ -18,7 +18,7 @@ spring:
 
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver 
-    url: jdbc:mysql://${MYSQL_URL}/request-manager
+    url: jdbc:mysql://${MYSQL_URL}/file-processor
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}    
   jpa:
