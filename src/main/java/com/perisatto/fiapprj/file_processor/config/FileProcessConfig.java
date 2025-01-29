@@ -16,7 +16,7 @@ import com.perisatto.fiapprj.file_processor.infra.gateways.mappers.RequestMapper
 import com.perisatto.fiapprj.file_processor.infra.persistences.repositories.RequestPersistenceRepository;
 
 @Configuration
-public class RequestConfig {
+public class FileProcessConfig {
 	
 	@Autowired
 	private Environment env;
