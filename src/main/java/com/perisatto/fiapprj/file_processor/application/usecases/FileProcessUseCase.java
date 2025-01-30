@@ -62,9 +62,9 @@ public class FileProcessUseCase {
 			grabber.close();
 			
 			return;
-		}
-
-		File zipFile = File.createTempFile("frames", ".zip");
+		}		
+		
+		File zipFile = File.createTempFile("frames", ".zip", new File("/" + request.getId()));
 
 		FileOutputStream fos = new FileOutputStream(zipFile);
 		ZipOutputStream zos = new ZipOutputStream(fos);
