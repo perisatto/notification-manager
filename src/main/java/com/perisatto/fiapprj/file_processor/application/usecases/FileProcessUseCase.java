@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -65,10 +67,9 @@ public class FileProcessUseCase {
 			return;
 		}		
 		
-		File zipFile = Files.createTempFile("frames", ".zip").toFile();
-		zipFile.setReadable(true);
-		zipFile.setWritable(true);
-		zipFile.setExecutable(true);
+		Files.createDirectories(Paths.get("/vfc/" + request.getId()));
+		
+		File zipFile = File.createTempFile("frames", ".zip", new File("/vfc/" + request.getId()));
 
 		FileOutputStream fos = new FileOutputStream(zipFile);
 		ZipOutputStream zos = new ZipOutputStream(fos);
