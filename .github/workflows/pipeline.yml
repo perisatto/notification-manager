@@ -11,10 +11,6 @@ jobs:
         || startsWith(github.ref_name, 'feature/')
     runs-on: ubuntu-latest
     env:
-      MYSQL_URL: '${{secrets.MYSQL_URL}}'
-      MYSQL_PORT:  '${{secrets.MYSQL_PORT}}'	  
-      MYSQL_USER: '${{secrets.MYSQL_USER}}'
-      MYSQL_PASSWORD: '${{secrets.MYSQL_PASSWORD}}'
       AWS_ACCESS_KEY_ID: '${{secrets.AWS_ACCESS_KEY_ID}}'
       AWS_SECRET_ACCESS_KEY: '${{secrets.AWS_SECRET_ACCESS_KEY}}'
       AWS_SESSION_TOKEN: '${{secrets.AWS_SESSION_TOKEN}}'
@@ -28,6 +24,7 @@ jobs:
       RABBITMQ_USER: '${{secrets.RABBITMQ_USER}}'
       RABBITMQ_PASSWORD: '${{secrets.RABBITMQ_PASSWORD}}'
       RABBITMQ_SSL: '${{secrets.RABBITMQ_SSL}}'
+      REQUEST_SERVICE_URL: '${{secrets.REQUEST_SERVICE_URL}}'
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 22
@@ -75,10 +72,6 @@ jobs:
         || startsWith(github.ref_name, 'feature/')   
     runs-on: ubuntu-latest
     env:
-      MYSQL_URL: '${{secrets.MYSQL_URL}}'
-      MYSQL_PORT:  '${{secrets.MYSQL_PORT}}'	  
-      MYSQL_USER: '${{secrets.MYSQL_USER}}'
-      MYSQL_PASSWORD: '${{secrets.MYSQL_PASSWORD}}'
       AWS_ACCESS_KEY_ID: '${{secrets.AWS_ACCESS_KEY_ID}}'
       AWS_SECRET_ACCESS_KEY: '${{secrets.AWS_SECRET_ACCESS_KEY}}'
       AWS_SESSION_TOKEN: '${{secrets.AWS_SESSION_TOKEN}}'
@@ -92,6 +85,7 @@ jobs:
       RABBITMQ_USER: '${{secrets.RABBITMQ_USER}}'
       RABBITMQ_PASSWORD: '${{secrets.RABBITMQ_PASSWORD}}'
       RABBITMQ_SSL: '${{secrets.RABBITMQ_SSL}}'
+      REQUEST_SERVICE_URL: '${{secrets.REQUEST_SERVICE_URL}}'
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 22
@@ -143,10 +137,6 @@ jobs:
     needs: Publish	
     runs-on: ubuntu-latest
     env:
-      MYSQL_URL: '${{secrets.MYSQL_URL}}'
-      MYSQL_PORT:  '${{secrets.MYSQL_PORT}}'
-      MYSQL_USER: '${{secrets.MYSQL_USER}}'
-      MYSQL_PASSWORD: '${{secrets.MYSQL_PASSWORD}}'
       AWS_ACCESS_KEY_ID: '${{secrets.AWS_ACCESS_KEY_ID}}'
       AWS_SECRET_ACCESS_KEY: '${{secrets.AWS_SECRET_ACCESS_KEY}}'
       AWS_SECRET_ACCESS_KEY64: '${{secrets.AWS_SECRET_ACCESS_KEY64}}'
@@ -160,6 +150,7 @@ jobs:
       RABBITMQ_USER: '${{secrets.RABBITMQ_USER}}'
       RABBITMQ_PASSWORD: '${{secrets.RABBITMQ_PASSWORD}}'
       RABBITMQ_SSL: '${{secrets.RABBITMQ_SSL}}'
+      REQUEST_SERVICE_URL: '${{secrets.REQUEST_SERVICE_URL}}'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -185,8 +176,8 @@ jobs:
           VERSION: '${{needs.Publish.outputs.VERSION}}'
         run: |
           REPO_NAME=${GITHUB_REPOSITORY#*/}		
-          helm upgrade --install $REPO_NAME --set image.tag=$VERSION --set mysqlUrl=$MYSQL_URL --set mysqlPort=$MYSQL_PORT --set mysql_user=$MYSQL_USER \
-          --set mysql_password=$MYSQL_PASSWORD --set aws_access_key_id=$AWS_ACCESS_KEY_ID --set aws_secret_access_key=$AWS_SECRET_ACCESS_KEY64 \
-          --set aws_session_token=$AWS_SESSION_TOKEN64 --set aws_region=$AWS_REGION --set aws_s3_upload_bucket=$AWS_S3_UPLOAD_BUCKET \
+          helm upgrade --install $REPO_NAME --set image.tag=$VERSION --set aws_access_key_id=$AWS_ACCESS_KEY_ID \
+          --set aws_secret_access_key=$AWS_SECRET_ACCESS_KEY64 --set aws_session_token=$AWS_SESSION_TOKEN64 \
+          --set aws_region=$AWS_REGION --set aws_s3_upload_bucket=$AWS_S3_UPLOAD_BUCKET --set request_service_url=$REQUEST_SERVICE_URL \
           --set aws_s3_download_bucket=$AWS_S3_DOWNLOAD_BUCKET --set rabbitmq_host=$RABBITMQ_HOST --set rabbitmq_port=$RABBITMQ_PORT \
           --set rabbitmq_user=$RABBITMQ_USER --set rabbitmq_password=$RABBITMQ_PASSWORD --set rabbitmq_ssl=$RABBITMQ_SSL ./helm-chart

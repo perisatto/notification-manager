@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.perisatto.fiapprj</groupId>
-	<artifactId>request-manager</artifactId>
+	<artifactId>file-processor</artifactId>
 	<version>1.0.0</version>
-	<name>request-manager</name>
+	<name>file-processor</name>
 	<description>Video trimmer for FIAP Tech Challenge (post graduate course test)</description>
 	<properties>
 		<java.version>22</java.version>
@@ -69,7 +69,8 @@
 		    <artifactId>s3</artifactId>
 		    <version>2.30.1</version>
 		</dependency>
-		
+	
+
 		<!-- AWS SDK-->
 
 		<dependency>
@@ -82,6 +83,13 @@
             <artifactId>spring-mock-mvc</artifactId>
             <scope>test</scope>
         </dependency>	
+        
+		<!-- https://mvnrepository.com/artifact/org.bytedeco/javacv -->
+		<dependency>
+		    <groupId>org.bytedeco</groupId>
+		    <artifactId>javacv-platform</artifactId>
+		    <version>1.5.11</version>
+		</dependency>    
         
         <!-- Cucumber -->
         <dependency>
@@ -114,7 +122,19 @@
 		    <groupId>io.rest-assured</groupId>
 		    <artifactId>json-schema-validator</artifactId>
 		    <scope>test</scope>
-		</dependency>        
+		</dependency> 
+		
+		<dependency>
+    		<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>		    
+		    <scope>test</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.squareup.okhttp3</groupId>
+		    <artifactId>mockwebserver</artifactId>
+		    <scope>test</scope>
+		</dependency> 		       
 	</dependencies>
 
 	<build>

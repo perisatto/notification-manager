@@ -1,26 +1,33 @@
 spring:
   application:
-    name: request-manager
+    name: file-processor
   jackson:
     deserialization:
       fail-on-unknown-properties: true     
 server:
   servlet:
-    context-path: "/request-manager/v1"      
+    context-path: "/file-processor/v1"      
 ---    
 spring:
   config:
     activate:      on-profile:      - test
-  sql:
-    init:      mode: always
-  datasource: 
-    url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: none        
-  cognito:
-    userPoolId: ${AWS_COGNITO_USER_POOL_ID}     
+  request:
+    serviceUrl: ${REQUEST_SERVICE_URL}
+  aws:
+    accessKeyId: ${AWS_ACCESS_KEY_ID}
+    secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
+    sessionToken: ${AWS_SESSION_TOKEN}
+    region: ${AWS_REGION}
+    s3UploadBucket: ${AWS_S3_UPLOAD_BUCKET}
+    s3DownloadBucket: ${AWS_S3_DOWNLOAD_BUCKET}
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASSWORD}
+    ssl:
+      enabled: ${RABBITMQ_SSL}
+    listener:
+      simple:
+        auto-startup: false
