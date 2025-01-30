@@ -20,6 +20,7 @@ spec:
       containers:
         - name: file-processor-service
           image: rperisatto/file-processor:{{ .Values.image.tag }}
+          imagePullPolicy: Always
           env:
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
