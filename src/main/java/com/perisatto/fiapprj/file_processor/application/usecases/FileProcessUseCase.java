@@ -62,8 +62,8 @@ public class FileProcessUseCase {
 			grabber.close();
 			
 			return;
-		}
-
+		}		
+		
 		File zipFile = File.createTempFile("frames", ".zip");
 
 		FileOutputStream fos = new FileOutputStream(zipFile);
@@ -100,10 +100,10 @@ public class FileProcessUseCase {
 			grabber.close();
 			
 			return;
+		} finally {
+			zos.close();
+			fos.close();
 		}
-
-		zos.close();
-		fos.close();
 
 		logger.info("Video file processing finished. Total frames captured: " + frameCount);
 		logger.info("Uploading compressed file...");
