@@ -27,4 +27,7 @@ spring:
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASSWORD}
     ssl:
-      enabled: ${RABBITMQ_SSL}   
+      enabled: ${RABBITMQ_SSL}
+    listener:
+      simple:
+        auto-startup: false
