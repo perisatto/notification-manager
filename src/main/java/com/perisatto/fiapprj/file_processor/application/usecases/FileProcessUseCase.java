@@ -3,9 +3,6 @@ package com.perisatto.fiapprj.file_processor.application.usecases;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -67,9 +64,7 @@ public class FileProcessUseCase {
 			return;
 		}		
 		
-		Files.createDirectories(Paths.get("/vfc/" + request.getId()));
-		
-		File zipFile = File.createTempFile("frames", ".zip", new File("/vfc/" + request.getId()));
+		File zipFile = File.createTempFile("frames", ".zip");
 
 		FileOutputStream fos = new FileOutputStream(zipFile);
 		ZipOutputStream zos = new ZipOutputStream(fos);
@@ -105,10 +100,10 @@ public class FileProcessUseCase {
 			grabber.close();
 			
 			return;
+		} finally {
+			zos.close();
+			fos.close();
 		}
-
-		zos.close();
-		fos.close();
 
 		logger.info("Video file processing finished. Total frames captured: " + frameCount);
 		logger.info("Uploading compressed file...");
