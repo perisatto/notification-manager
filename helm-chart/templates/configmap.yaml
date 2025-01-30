@@ -3,7 +3,6 @@ kind: ConfigMap
 metadata:
   name: file-processor-config
 data:
-  mysql_url: {{ .Values.mysqlUrl }}:{{ .Values.mysqlPort }}
   aws_region: {{ .Values.aws_region }}
   aws_access_key_id: {{ .Values.aws_access_key_id }}
   aws_s3_upload_bucket: {{ .Values.aws_s3_upload_bucket }}
