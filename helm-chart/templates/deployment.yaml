@@ -78,11 +78,11 @@ spec:
                   key: rabbitmq_ssl
             - name: REQUEST_SERVICE_URL
               valueFrom:
-		        configMapKeyRef:
+                configMapKeyRef:
                   name: file-processor-config
-                  key: request_service_url			  
+                  key: request_service_url
           ports:
-            - containerPort: 8080      
+            - containerPort: 8080
           readinessProbe:
             httpGet:
               path: /file-processor/v1/actuator/health
