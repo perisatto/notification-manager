@@ -21,21 +21,6 @@ spec:
         - name: request-manager-service
           image: rperisatto/request-manager:{{ .Values.image.tag }}
           env:
-            - name: MYSQL_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: request-manager-config
-                  key: mysql_url
-            - name: MYSQL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: request-manager-secret
-                  key: mysql_user      
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: request-manager-secret
-                  key: mysql_password
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 configMapKeyRef:
@@ -91,6 +76,11 @@ spec:
                 configMapKeyRef:
                   name: request-manager-config
                   key: rabbitmq_ssl
+            - name: REQUEST_SERVICE_URL
+              valueFrom:
+		        configMapKeyRef:
+                  name: request-manager-config
+                  key: request_service_url			  
           ports:
             - containerPort: 8080      
           readinessProbe:

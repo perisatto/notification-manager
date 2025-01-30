@@ -11,3 +11,4 @@ data:
   rabbitmq_host: {{ .Values.rabbitmq_host }}  
   rabbitmq_port: "{{ .Values.rabbitmq_port }}"
   rabbitmq_ssl: "{{ .Values.rabbitmq_ssl }}"
+  request_service_url: "{{ .Values.request_service_url }}"
