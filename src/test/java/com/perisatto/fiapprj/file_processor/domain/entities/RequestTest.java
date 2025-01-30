@@ -5,9 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.perisatto.fiapprj.file_processor.domain.entities.Request;
-import com.perisatto.fiapprj.file_processor.domain.entities.RequestStatus;
-
 @ActiveProfiles(value = "test")
 public class RequestTest {
 	
@@ -77,7 +74,6 @@ public class RequestTest {
 	@Test
 	void givenNullOwner_thenRefusesToCreateRequest() {
 		try {
-			String owner = "me";
 			Integer interval = 10;
 			String videoFileName = "JohnCenaChairFight.mpeg";			
 					
