@@ -17,12 +17,6 @@ autoscaling:
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
-  
-#Configurações da instância MySQL
-mysqlUrl: ${MYSQL_URL}
-mysqlPort: ${MYSQL_PORT}
-mysql_user: ${MYSQL_USER}
-mysql_password: ${MYSQL_PASSWORD}
 
 #Configurações AWS
 aws_access_key_id: ${AWS_ACCESS_KEY_ID}
@@ -38,3 +32,6 @@ rabbitmq_port: ${RABBITMQ_PORT}
 rabbitmq_user: ${RABBITMQ_USER}
 rabbitmq_password: ${RABBITMQ_PASSWORD}
 rabbitmq_ssl: ${RABBITMQ_SSL}
+
+#Request Manager
+request_service_url: ${REQUEST_SERVICE_URL}
