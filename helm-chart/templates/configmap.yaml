@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: request-manager-config
+  name: file-processor-config
 data:
   mysql_url: {{ .Values.mysqlUrl }}:{{ .Values.mysqlPort }}
   aws_region: {{ .Values.aws_region }}

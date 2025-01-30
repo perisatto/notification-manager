@@ -1,97 +1,97 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: request-manager-deployment
+  name: file-processor-deployment
   labels:
-    vfc.fiapprj.perisatto.com/name: request-manager
+    vfc.fiapprj.perisatto.com/name: file-processor
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      vfc.fiapprj.perisatto.com/name: request-manager
+      vfc.fiapprj.perisatto.com/name: file-processor
   template:
     metadata:
-      name: request-manager-deployment
+      name: file-processor-deployment
       labels:
-        vfc.fiapprj.perisatto.com/name: request-manager
+        vfc.fiapprj.perisatto.com/name: file-processor
     spec:
       containers:
-        - name: request-manager-service
-          image: rperisatto/request-manager:{{ .Values.image.tag }}
+        - name: file-processor-service
+          image: rperisatto/file-processor:{{ .Values.image.tag }}
           env:
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 configMapKeyRef:
-                  name: request-manager-config
+                  name: file-processor-config
                   key: aws_access_key_id
             - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: request-manager-secret
+                  name: file-processor-secret
                   key: aws_secret_access_key
             - name: AWS_SESSION_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: request-manager-secret
+                  name: file-processor-secret
                   key: aws_session_token
             - name: AWS_REGION
               valueFrom:
                 configMapKeyRef:
-                  name: request-manager-config
+                  name: file-processor-config
                   key: aws_region
             - name: AWS_S3_UPLOAD_BUCKET
               valueFrom:
                 configMapKeyRef:
-                  name: request-manager-config
+                  name: file-processor-config
                   key: aws_s3_upload_bucket
             - name: AWS_S3_DOWNLOAD_BUCKET
               valueFrom:
                 configMapKeyRef:
-                  name: request-manager-config
+                  name: file-processor-config
                   key: aws_s3_download_bucket
             - name: RABBITMQ_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: request-manager-config
+                  name: file-processor-config
                   key: rabbitmq_host
             - name: RABBITMQ_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: request-manager-config
+                  name: file-processor-config
                   key: rabbitmq_port				 
             - name: RABBITMQ_USER
               valueFrom:
                 secretKeyRef:
-                  name: request-manager-secret
+                  name: file-processor-secret
                   key: rabbitmq_user
             - name: RABBITMQ_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: request-manager-secret
+                  name: file-processor-secret
                   key: rabbitmq_password
             - name: RABBITMQ_SSL
               valueFrom:
                 configMapKeyRef:
-                  name: request-manager-config
+                  name: file-processor-config
                   key: rabbitmq_ssl
             - name: REQUEST_SERVICE_URL
               valueFrom:
 		        configMapKeyRef:
-                  name: request-manager-config
+                  name: file-processor-config
                   key: request_service_url			  
           ports:
             - containerPort: 8080      
           readinessProbe:
             httpGet:
-              path: /request-manager/v1/actuator/health
+              path: /file-processor/v1/actuator/health
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 10
           livenessProbe:
             httpGet:
-              path: /request-manager/v1/actuator/health
+              path: /file-processor/v1/actuator/health
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 60
