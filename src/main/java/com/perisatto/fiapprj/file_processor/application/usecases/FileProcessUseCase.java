@@ -38,6 +38,10 @@ public class FileProcessUseCase {
 	public void generateImageFiles(Request request) throws Exception {
 
 		logger.info("Processing new request. Request id: " + request.getId());
+		
+		request.setStatus(RequestStatus.PROCESSING);
+
+		requestRepository.updateRequest(request);
 
 		Long interval = (long) (request.getInterval() * 1000000);
 
