@@ -3,6 +3,7 @@ package com.perisatto.fiapprj.file_processor.application.usecases;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -64,7 +65,10 @@ public class FileProcessUseCase {
 			return;
 		}		
 		
-		File zipFile = File.createTempFile("frames", ".zip", new File("/" + request.getId()));
+		File zipFile = Files.createTempFile("frames", ".zip").toFile();
+		zipFile.setReadable(true);
+		zipFile.setWritable(true);
+		zipFile.setExecutable(true);
 
 		FileOutputStream fos = new FileOutputStream(zipFile);
 		ZipOutputStream zos = new ZipOutputStream(fos);
