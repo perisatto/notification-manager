@@ -49,9 +49,9 @@ jobs:
         env:
           VERSION: '${{github.event.inputs.version}}'
         run: |
-		  REPO_NAME=${GITHUB_REPOSITORY#*/}		
-		  helm upgrade --install $REPO_NAME --set image.tag=$VERSION --set aws_access_key_id=$AWS_ACCESS_KEY_ID \
-		  --set aws_secret_access_key=$AWS_SECRET_ACCESS_KEY64 --set aws_session_token=$AWS_SESSION_TOKEN64 \
-		  --set aws_region=$AWS_REGION --set aws_s3_upload_bucket=$AWS_S3_UPLOAD_BUCKET --set request_service_url=$REQUEST_SERVICE_URL \
-		  --set aws_s3_download_bucket=$AWS_S3_DOWNLOAD_BUCKET --set rabbitmq_host=$RABBITMQ_HOST --set rabbitmq_port=$RABBITMQ_PORT \
-		  --set rabbitmq_user=$RABBITMQ_USER --set rabbitmq_password=$RABBITMQ_PASSWORD --set rabbitmq_ssl=$RABBITMQ_SSL ./helm-chart
+          REPO_NAME=${GITHUB_REPOSITORY#*/}		
+          helm upgrade --install $REPO_NAME --set image.tag=$VERSION --set aws_access_key_id=$AWS_ACCESS_KEY_ID \
+          --set aws_secret_access_key=$AWS_SECRET_ACCESS_KEY64 --set aws_session_token=$AWS_SESSION_TOKEN64 \
+          --set aws_region=$AWS_REGION --set aws_s3_upload_bucket=$AWS_S3_UPLOAD_BUCKET --set request_service_url=$REQUEST_SERVICE_URL \
+          --set aws_s3_download_bucket=$AWS_S3_DOWNLOAD_BUCKET --set rabbitmq_host=$RABBITMQ_HOST --set rabbitmq_port=$RABBITMQ_PORT \
+          --set rabbitmq_user=$RABBITMQ_USER --set rabbitmq_password=$RABBITMQ_PASSWORD --set rabbitmq_ssl=$RABBITMQ_SSL ./helm-chart
