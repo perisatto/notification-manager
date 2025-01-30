@@ -8,8 +8,7 @@ spring:
       fail-on-unknown-properties: true     
 server:
   servlet:
-    context-path: "/file-processor/v1" 
-  port: 8081
+    context-path: "/file-processor/v1"
 ---
 spring:
   config:
