@@ -1,4 +1,4 @@
-package com.perisatto.fiapprj.file_processor.domain.entities;
+package com.perisatto.fiapprj.notification_manager.domain.entities;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

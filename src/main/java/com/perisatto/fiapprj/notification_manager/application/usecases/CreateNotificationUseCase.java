@@ -42,8 +42,8 @@ public class CreateNotificationUseCase {
 		if(request.isPresent()) {
 			Optional<User> user = userRepository.getUserById(request.get().getOwner());	
 			
-			String subject = "[Request " + request.get().getId() + "] Error processing request";
-			String message = "An error ocurred while your request was processing. The request finished with the following message: " + request.get().getRemarks();
+			String subject = "[Request " + notification.getRequestId() + "] Error processing request";
+			String message = "An error ocurred while your request was processing. The request finished with the following message: " + notification.getMessage();
 			
 			sendSimpleMessage(subject, message, user.get().getEmail());		
 		}
