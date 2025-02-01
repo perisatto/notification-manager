@@ -5,6 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.perisatto.fiapprj.notification_manager.domain.entities.Request;
+import com.perisatto.fiapprj.notification_manager.domain.entities.RequestStatus;
+
 @ActiveProfiles(value = "test")
 public class RequestTest {
 	
@@ -12,7 +15,7 @@ public class RequestTest {
 	void givenValidData_thenCreateRequest() throws Exception {
 		
 		Long idRequest = 1L;
-		String owner = "me";
+		Long owner = 1L;
 		Integer interval = 10;
 		RequestStatus status = RequestStatus.PENDING_UPLOAD;
 		String videoFileName = "JohnCenaChairFight.mpeg";
@@ -39,7 +42,7 @@ public class RequestTest {
 	@Test
 	void getRequestData() throws Exception {
 		Long idRequest = 1L;
-		String owner = "me";
+		Long owner = 1L;
 		Integer interval = 10;
 		RequestStatus status = RequestStatus.PENDING_UPLOAD;
 		String videoFileName = "JohnCenaChairFight.mpeg";
@@ -86,20 +89,7 @@ public class RequestTest {
 	@Test
 	void givenBlankOwner_thenRefusesToCreateRequest() {
 		try {
-			String owner = " ";
-			Integer interval = 10;
-			String videoFileName = "JohnCenaChairFight.mpeg";			
-					
-			Request request = new Request(owner, interval, videoFileName);
-		} catch (Exception e) {
-			assertThat(e.getMessage()).contains("null or empty owner");
-		}
-	}
-	
-	@Test
-	void givenEmptyOwner_thenRefusesToCreateRequest() {
-		try {
-			String owner = "";
+			Long owner = null;
 			Integer interval = 10;
 			String videoFileName = "JohnCenaChairFight.mpeg";			
 					
@@ -112,7 +102,7 @@ public class RequestTest {
 	@Test
 	void givenNullInterval_thenRefusesToCreateRequest() {
 		try {
-			String owner = "me";
+			Long owner = 1L;
 			Integer interval = 10;
 			String videoFileName = "JohnCenaChairFight.mpeg";			
 					
@@ -125,7 +115,7 @@ public class RequestTest {
 	@Test
 	void givenInvalidInterval_thenRefusesToCreateRequest() {
 		try {
-			String owner = "me";
+			Long owner = 1L;
 			Integer interval = 5;
 			String videoFileName = "JohnCenaChairFight.mpeg";			
 					
@@ -138,7 +128,7 @@ public class RequestTest {
 	@Test
 	void givenNullVideoFileName_thenRefusesToCreateRequest() {
 		try {
-			String owner = "me";
+			Long owner = 1L;
 			Integer interval = 10;
 			String videoFileName = "JohnCenaChairFight.mpeg";			
 					
@@ -151,7 +141,7 @@ public class RequestTest {
 	@Test
 	void givenBlankVideoFileName_thenRefusesToCreateRequest() {
 		try {
-			String owner = "me";
+			Long owner = 1L;
 			Integer interval = 10;
 			String videoFileName = " ";			
 					
@@ -164,7 +154,7 @@ public class RequestTest {
 	@Test
 	void givenEmptyVideoFileName_thenRefusesToCreateRequest() {
 		try {
-			String owner = "me";
+			Long owner = 1L;
 			Integer interval = 10;
 			String videoFileName = "";			
 					
