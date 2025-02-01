@@ -72,11 +72,12 @@
             <scope>test</scope>
         </dependency>	
 
+		<!-- https://mvnrepository.com/artifact/com.postmarkapp/postmark -->
 		<dependency>
-		    <groupId>com.mashape.unirest</groupId>
-		    <artifactId>unirest-java</artifactId>
-		    <version>1.4.9</version>
-		</dependency>        
+		    <groupId>com.postmarkapp</groupId>
+		    <artifactId>postmark</artifactId>
+		    <version>1.11.1</version>
+		</dependency>      
                   
         <!-- Cucumber -->
         <dependency>

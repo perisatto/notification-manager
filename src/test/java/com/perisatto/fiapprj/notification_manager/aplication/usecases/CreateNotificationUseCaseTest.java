@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.perisatto.fiapprj.notification_manager.application.interfaces.RequestRepository;
@@ -23,6 +22,9 @@ import com.perisatto.fiapprj.notification_manager.domain.entities.Request;
 import com.perisatto.fiapprj.notification_manager.domain.entities.RequestStatus;
 import com.perisatto.fiapprj.notification_manager.domain.entities.User;
 import com.perisatto.fiapprj.notification_manager.handler.exceptions.ValidationException;
+import com.postmarkapp.postmark.client.ApiClient;
+import com.postmarkapp.postmark.client.data.model.message.Message;
+import com.postmarkapp.postmark.client.data.model.message.MessageResponse;
 
 @ActiveProfiles(value = "test")
 public class CreateNotificationUseCaseTest {
@@ -33,17 +35,17 @@ public class CreateNotificationUseCaseTest {
 	private RequestRepository requestRepository;
 	
 	@Mock
-	private UserRepository userRepository;
+	private UserRepository userRepository;	
 	
 	@Mock
-	private Environment env;
+	private ApiClient client;
 	
 	AutoCloseable openMocks;
 	
 	@BeforeEach
 	void setUp() {
 		openMocks = MockitoAnnotations.openMocks(this);
-		createNotificationUseCase = new CreateNotificationUseCase(requestRepository, userRepository, env);
+		createNotificationUseCase = new CreateNotificationUseCase(requestRepository, userRepository, client);
 	}
 	
 	@AfterEach
@@ -64,8 +66,10 @@ public class CreateNotificationUseCaseTest {
 		when(userRepository.getUserById(any(Long.class)))
 		.thenReturn(Optional.of(user));
 		
-		when(env.getProperty(any(String.class)))
-		.thenReturn("apikey-code");
+		MessageResponse messageResponse = new MessageResponse();
+		
+		when(client.deliverMessage(any(Message.class)))
+		.thenReturn(messageResponse);
 		
 		Notification notification = new Notification();
 		notification.setMessage("An error occurred");

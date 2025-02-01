@@ -1,20 +1,22 @@
 package com.perisatto.fiapprj.notification_manager.application.usecases;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.core.env.Environment;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import com.perisatto.fiapprj.notification_manager.application.interfaces.RequestRepository;
 import com.perisatto.fiapprj.notification_manager.application.interfaces.UserRepository;
 import com.perisatto.fiapprj.notification_manager.domain.entities.Notification;
 import com.perisatto.fiapprj.notification_manager.domain.entities.Request;
 import com.perisatto.fiapprj.notification_manager.domain.entities.User;
+import com.postmarkapp.postmark.Postmark;
+import com.postmarkapp.postmark.client.ApiClient;
+import com.postmarkapp.postmark.client.data.model.message.Message;
+import com.postmarkapp.postmark.client.data.model.message.MessageResponse;
+import com.postmarkapp.postmark.client.exception.PostmarkException;
 
 public class CreateNotificationUseCase {
 	
@@ -24,12 +26,12 @@ public class CreateNotificationUseCase {
 	
 	private final UserRepository userRepository;
 	
-	private final Environment env;
+	private final ApiClient client;
 	
-	public CreateNotificationUseCase(RequestRepository requestRepository, UserRepository userRepository, Environment env) {
+	public CreateNotificationUseCase(RequestRepository requestRepository, UserRepository userRepository, ApiClient client) {
 		this.requestRepository = requestRepository;
 		this.userRepository = userRepository;
-		this.env = env;
+		this.client = client;
 	}
 
 	public void sendEmail(Notification notification) throws Exception {
@@ -45,18 +47,14 @@ public class CreateNotificationUseCase {
 			String subject = "[Request " + notification.getRequestId() + "] Error processing request";
 			String message = "An error ocurred while your request was processing. The request finished with the following message: " + notification.getMessage();
 			
-			sendSimpleMessage(subject, message, user.get().getEmail());		
+			sendSimpleMessage(subject, message, user.get().getEmail());
+			
+			logger.info("Email notification sent");
 		}
 	}
 
-  	public JsonNode sendSimpleMessage(String subject, String message, String to) throws UnirestException {  		
-  		HttpResponse<JsonNode> request = Unirest.post("https://api.mailgun.net/v3/sandbox7e6a008084314249a7f9a0903808cf4d.mailgun.org/messages")
-  			.basicAuth("api", env.getProperty("spring.mailgun.apikey"))
-  			.queryString("from", "VFC Notification <USER@sandbox7e6a008084314249a7f9a0903808cf4d.mailgun.org>")
-  			.queryString("to", to)
-  			.queryString("subject", subject)
-  			.queryString("text", message)
-  			.asJson();
-  		return request.getBody();
+  	public void sendSimpleMessage(String subject, String message, String to) throws PostmarkException, IOException {  		
+  		Message sendMessage = new Message("rodrigo@perisatto.com", to, subject, message);
+  		MessageResponse response = client.deliverMessage(sendMessage);
   	}
 }

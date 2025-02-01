@@ -10,6 +10,8 @@ import com.perisatto.fiapprj.notification_manager.application.interfaces.UserRep
 import com.perisatto.fiapprj.notification_manager.application.usecases.CreateNotificationUseCase;
 import com.perisatto.fiapprj.notification_manager.infra.gateways.RequestRepositoryApi;
 import com.perisatto.fiapprj.notification_manager.infra.gateways.UserRepositoryApi;
+import com.postmarkapp.postmark.Postmark;
+import com.postmarkapp.postmark.client.ApiClient;
 
 @Configuration
 public class NotificationConfig {
@@ -28,7 +30,13 @@ public class NotificationConfig {
 	}
 	
 	@Bean
-	CreateNotificationUseCase createNotificationUseCase(RequestRepository requestRepository, UserRepository userRepository, Environment env) {
-		return new CreateNotificationUseCase(requestRepository, userRepository, env);
+	CreateNotificationUseCase createNotificationUseCase(RequestRepository requestRepository, UserRepository userRepository, ApiClient client) {
+		return new CreateNotificationUseCase(requestRepository, userRepository, client);
+	}
+	
+	@Bean
+	ApiClient client() {
+		ApiClient client = Postmark.getApiClient(env.getProperty("spring.mailgun.apikey"));
+		return client; 
 	}
 }
