@@ -78,7 +78,7 @@ public class CreateNotificationUseCaseTest {
 
 	private User getNewUser() throws Exception {
 		String userName = "Roberto Machado";
-		String userEmail = "roberto.machado@bestmail.com";
+		String userEmail = "mailgun.carmaker171@passmail.net";
 		String documentNumber = "90779778057";
 
 		CPF userCPF = new CPF(documentNumber);
