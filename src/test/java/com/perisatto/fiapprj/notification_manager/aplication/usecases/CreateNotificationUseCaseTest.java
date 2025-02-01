@@ -65,7 +65,7 @@ public class CreateNotificationUseCaseTest {
 		.thenReturn(Optional.of(user));
 		
 		when(env.getProperty(any(String.class)))
-		.thenReturn("45cd33ca5dac5ef97c1910d41426adc2-d8df908e-8513f4b0");
+		.thenReturn("apikey-code");
 		
 		Notification notification = new Notification();
 		notification.setMessage("An error occurred");
