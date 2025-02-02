@@ -60,18 +60,6 @@
 			<artifactId>modelmapper</artifactId>
 			<version>3.2.0</version>
 		</dependency>
-		
-		<!-- AWS SDK -->
-		
-		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/s3 -->
-		<dependency>
-		    <groupId>software.amazon.awssdk</groupId>
-		    <artifactId>s3</artifactId>
-		    <version>2.30.1</version>
-		</dependency>
-	
-
-		<!-- AWS SDK-->
 
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -83,14 +71,14 @@
             <artifactId>spring-mock-mvc</artifactId>
             <scope>test</scope>
         </dependency>	
-        
-		<!-- https://mvnrepository.com/artifact/org.bytedeco/javacv -->
+
+		<!-- https://mvnrepository.com/artifact/com.postmarkapp/postmark -->
 		<dependency>
-		    <groupId>org.bytedeco</groupId>
-		    <artifactId>javacv-platform</artifactId>
-		    <version>1.5.11</version>
-		</dependency>    
-        
+		    <groupId>com.postmarkapp</groupId>
+		    <artifactId>postmark</artifactId>
+		    <version>1.11.1</version>
+		</dependency>      
+                  
         <!-- Cucumber -->
         <dependency>
         	<groupId>io.cucumber</groupId>
