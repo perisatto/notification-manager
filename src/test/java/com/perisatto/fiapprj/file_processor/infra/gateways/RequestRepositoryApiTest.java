@@ -16,9 +16,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.perisatto.fiapprj.file_processor.domain.entities.Request;
-import com.perisatto.fiapprj.file_processor.domain.entities.RequestStatus;
-import com.perisatto.fiapprj.file_processor.infra.controllers.dtos.UpdateRequestResponseDTO;
+import com.perisatto.fiapprj.notification_manager.domain.entities.Request;
+import com.perisatto.fiapprj.notification_manager.domain.entities.RequestStatus;
+import com.perisatto.fiapprj.notification_manager.infra.controllers.dtos.UpdateRequestResponseDTO;
+import com.perisatto.fiapprj.notification_manager.infra.gateways.RequestRepositoryApi;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -65,7 +66,7 @@ public class RequestRepositoryApiTest {
 		mockBackEnd.enqueue(new MockResponse().setBody(asJsonString(updateRequestResponseDTO))
 				.addHeader("Content-Type", "application/json"));
 		
-		String owner = "me";
+		Long owner = 10L;
 		Integer interval = 50;
 		String videoFileName = "JohnCenaChairFight.mpeg";						
 		
@@ -93,7 +94,7 @@ public class RequestRepositoryApiTest {
 		mockBackEnd.enqueue(new MockResponse().setBody(asJsonString(updateRequestResponseDTO))
 				.addHeader("Content-Type", "application/json"));
 		
-		String owner = "me";
+		Long owner = 10L;
 		Integer interval = 50;
 		String videoFileName = "JohnCenaChairFight.mpeg";						
 		
@@ -117,7 +118,7 @@ public class RequestRepositoryApiTest {
 		mockBackEnd.enqueue(new MockResponse().setBody("").setResponseCode(404)
 				.addHeader("Content-Type", "application/json"));
 		
-		String owner = "me";
+		Long owner = 10L;
 		Integer interval = 50;
 		String videoFileName = "JohnCenaChairFight.mpeg";						
 		
