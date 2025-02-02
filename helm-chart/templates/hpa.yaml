@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: file-processor-deployment
+  name: notification-manager-deployment
   labels:
-    vfc.fiapprj.perisatto.com/name: file-processor
+    vfc.fiapprj.perisatto.com/name: notification-manager
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: file-processor-deployment
+    name: notification-manager-deployment
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

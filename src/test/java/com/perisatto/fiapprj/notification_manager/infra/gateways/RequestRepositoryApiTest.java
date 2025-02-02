@@ -1,10 +1,11 @@
-package com.perisatto.fiapprj.file_processor.infra.gateways;
+package com.perisatto.fiapprj.notification_manager.infra.gateways;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
@@ -18,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.perisatto.fiapprj.notification_manager.domain.entities.Request;
 import com.perisatto.fiapprj.notification_manager.domain.entities.RequestStatus;
+import com.perisatto.fiapprj.notification_manager.infra.controllers.dtos.GetRequestResponseDTO;
 import com.perisatto.fiapprj.notification_manager.infra.controllers.dtos.UpdateRequestResponseDTO;
 import com.perisatto.fiapprj.notification_manager.infra.gateways.RequestRepositoryApi;
 
@@ -66,7 +68,7 @@ public class RequestRepositoryApiTest {
 		mockBackEnd.enqueue(new MockResponse().setBody(asJsonString(updateRequestResponseDTO))
 				.addHeader("Content-Type", "application/json"));
 		
-		Long owner = 10L;
+		Long owner = 1L;
 		Integer interval = 50;
 		String videoFileName = "JohnCenaChairFight.mpeg";						
 		
@@ -94,7 +96,7 @@ public class RequestRepositoryApiTest {
 		mockBackEnd.enqueue(new MockResponse().setBody(asJsonString(updateRequestResponseDTO))
 				.addHeader("Content-Type", "application/json"));
 		
-		Long owner = 10L;
+		Long owner = 1L;
 		Integer interval = 50;
 		String videoFileName = "JohnCenaChairFight.mpeg";						
 		
@@ -118,7 +120,7 @@ public class RequestRepositoryApiTest {
 		mockBackEnd.enqueue(new MockResponse().setBody("").setResponseCode(404)
 				.addHeader("Content-Type", "application/json"));
 		
-		Long owner = 10L;
+		Long owner = 1L;
 		Integer interval = 50;
 		String videoFileName = "JohnCenaChairFight.mpeg";						
 		
@@ -128,6 +130,28 @@ public class RequestRepositoryApiTest {
 		Boolean updatedRequest = requestRepositoryApi.updateRequest(requestData);
 		
 		assertThat(updatedRequest).isEqualTo(false);
+	}
+	
+	@Test
+	void givenValidId_ThenRetrievesRequest() throws Exception {
+		GetRequestResponseDTO getRequestResponseDTO = new GetRequestResponseDTO();
+		getRequestResponseDTO.setId(UUID.randomUUID().toString());
+		getRequestResponseDTO.setInterval(10);
+		getRequestResponseDTO.setStatus(RequestStatus.COMPLETED);
+		getRequestResponseDTO.setVideoFileName("JohnCenaChairFight.mpeg");
+		
+		String serverUrl = String.format("http://localhost:%s", mockBackEnd.getPort());
+		
+		when(env.getProperty(any(String.class)))
+		.thenReturn(serverUrl);
+		
+		mockBackEnd.enqueue(new MockResponse().setBody(asJsonString(getRequestResponseDTO))
+				.addHeader("Content-Type", "application/json"));
+		
+		Long owner = 1L;
+		String requestId = UUID.randomUUID().toString();				
+		
+		Optional<Request> getdRequest = requestRepositoryApi.getRequestById(owner, requestId);
 	}
 	
 	public static String asJsonString(final Object obj) {

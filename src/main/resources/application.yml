@@ -1,6 +1,6 @@
 spring:
   application:
-    name: file-processor
+    name: notification-manager
   profiles:
     default: docker
   jackson:
@@ -8,7 +8,7 @@ spring:
       fail-on-unknown-properties: true     
 server:
   servlet:
-    context-path: "/file-processor/v1"
+    context-path: "/notification-manager/v1"
 ---
 spring:
   config:
@@ -17,13 +17,11 @@ spring:
       - docker		
   request:
     serviceUrl: ${REQUEST_SERVICE_URL}
-  aws:
-    accessKeyId: ${AWS_ACCESS_KEY_ID}
-    secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
-    sessionToken: ${AWS_SESSION_TOKEN}
-    region: ${AWS_REGION}
-    s3UploadBucket: ${AWS_S3_UPLOAD_BUCKET}
-    s3DownloadBucket: ${AWS_S3_DOWNLOAD_BUCKET}
+  user:
+    serviceUrl: ${USER_SERVICE_URL}
+
+  mailgun:
+    apiKey: ${MAILGUN_APIKEY}
 
   rabbitmq:
     host: ${RABBITMQ_HOST}

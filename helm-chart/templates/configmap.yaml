@@ -1,13 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: file-processor-config
+  name: notification-manager-config
 data:
-  aws_region: {{ .Values.aws_region }}
-  aws_access_key_id: {{ .Values.aws_access_key_id }}
-  aws_s3_upload_bucket: {{ .Values.aws_s3_upload_bucket }}
-  aws_s3_download_bucket: {{ .Values.aws_s3_download_bucket }}
   rabbitmq_host: {{ .Values.rabbitmq_host }}  
   rabbitmq_port: "{{ .Values.rabbitmq_port }}"
   rabbitmq_ssl: "{{ .Values.rabbitmq_ssl }}"
   request_service_url: "{{ .Values.request_service_url }}"
+  user_service_url: "{{ .Values.user_service_url }}"  
